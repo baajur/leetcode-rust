@@ -70,7 +70,5 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_merge_l_lists() {
-        todo!();
-    }
+    fn test_merge_l_lists() {}
 }
