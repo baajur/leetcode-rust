@@ -14,19 +14,13 @@ struct Solution;
 
 impl Solution {
     pub fn reverse_list(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
-        if head.is_none() {
-            return None;
-        }
         let mut prev = None;
         let mut cur = head;
         while let Some(node) = cur.as_mut() {
-            let next_cur = if prev.is_none() {
-                node.next.take()
-            } else {
-                node.next.replace(prev.unwrap())
-            };
+            let next_tmp = node.next.take();
+            node.next = prev;
             prev = cur;
-            cur = next_cur;
+            cur = next_tmp;
         }
         prev
     }
