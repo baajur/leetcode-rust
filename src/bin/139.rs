@@ -7,15 +7,11 @@ impl Solution {
         let mut dp = vec![false; s.len() + 1];
         dp[0] = true;
         for i in 1..=s.len() {
-            for word in word_dict.iter() {
-                if i < word.len() {
-                    continue;
+            for j in 0..i {
+                if dp[j] && word_dict.contains(&s[j..i]) {
+                    dp[i] = true;
+                    break;
                 }
-                if dp[i] {
-                    continue;
-                }
-                let tmp_s = s[0..(i - word.len())].to_string() + word;
-                dp[i] = dp[i - word.len()] && (tmp_s == &s[0..i]);
             }
         }
         dp[s.len()]
