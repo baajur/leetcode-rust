@@ -5,6 +5,30 @@ impl Solution {
         if nums.len() <= 1 {
             return nums.len() as i32;
         }
+        let mut dp = vec![None; nums.len()];
+        for i in 0..nums.len() {
+            let idx = {
+                let mut ng = -1;
+                let mut ok = nums.len() as i32;
+                while ok - ng > 1 {
+                    let mid = (ok + ng) / 2;
+                    if dp[mid as usize].is_none() || dp[mid as usize].unwrap() >= nums[i] {
+                        ok = mid;
+                    } else {
+                        ng = mid;
+                    }
+                }
+                ok as usize
+            };
+            dp[idx] = Some(nums[i]);
+        }
+        dp.iter().take_while(|v| v.is_some()).count() as i32
+    }
+
+    pub fn slow_length_of_lis(nums: Vec<i32>) -> i32 {
+        if nums.len() <= 1 {
+            return nums.len() as i32;
+        }
         let mut dp = vec![vec![-1; nums.len()]; nums.len()];
         dp[0][0] = 1;
 
@@ -46,5 +70,18 @@ mod tests {
         assert_eq!(Solution::length_of_lis(vec![9]), 1);
         assert_eq!(Solution::length_of_lis(vec![10, 5, 2, 6, 3, 9]), 3);
         assert_eq!(Solution::length_of_lis(vec![]), 0);
+    }
+
+    #[test]
+    fn test_slow_length_of_lis() {
+        assert_eq!(Solution::slow_length_of_lis(vec![2, 1, 5, 1, 6]), 3);
+        assert_eq!(
+            Solution::slow_length_of_lis(vec![10, 9, 2, 5, 3, 7, 101, 18]),
+            4
+        );
+        assert_eq!(Solution::slow_length_of_lis(vec![9, 8, 7, 6, 5]), 1);
+        assert_eq!(Solution::slow_length_of_lis(vec![9]), 1);
+        assert_eq!(Solution::slow_length_of_lis(vec![10, 5, 2, 6, 3, 9]), 3);
+        assert_eq!(Solution::slow_length_of_lis(vec![]), 0);
     }
 }
