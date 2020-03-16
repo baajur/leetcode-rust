@@ -18,6 +18,22 @@ impl Solution {
         }
         ret
     }
+
+    pub fn subarray_sum2(nums: Vec<i32>, k: i32) -> i32 {
+        use std::collections::HashMap;
+        let mut map = HashMap::new();
+        let mut count = 0;
+        let mut sum = 0;
+        map.insert(0, 1);
+        for i in 0..nums.len() {
+            sum += nums[i];
+            if let Some(x) = map.get(&(sum - k)) {
+                count += x;
+            }
+            *map.entry(sum).or_insert(0) += 1;
+        }
+        count
+    }
 }
 
 fn main() {
@@ -39,6 +55,24 @@ mod tests {
         assert_eq!(Solution::subarray_sum(vec![1, 1, 1], 3), 1);
         assert_eq!(
             Solution::subarray_sum(vec![28, 54, 7, -70, 22, 65, -6], 100),
+            1
+        );
+    }
+
+    #[test]
+    fn test_subarray_sum2() {
+        assert_eq!(Solution::subarray_sum2(vec![1, 1, 1], 2), 2);
+        assert_eq!(Solution::subarray_sum2(vec![], 4), 0);
+        assert_eq!(Solution::subarray_sum2(vec![1], 4), 0);
+        assert_eq!(Solution::subarray_sum2(vec![1, 1, 1, 2, 1], 3), 3);
+        assert_eq!(Solution::subarray_sum2(vec![1], 0), 0);
+        assert_eq!(Solution::subarray_sum2(vec![1, 1, 1], 3), 1);
+        assert_eq!(
+            Solution::subarray_sum2(vec![0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0),
+            55
+        );
+        assert_eq!(
+            Solution::subarray_sum2(vec![28, 54, 7, -70, 22, 65, -6], 100),
             1
         );
     }
