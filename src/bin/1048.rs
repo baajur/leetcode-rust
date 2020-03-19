@@ -25,6 +25,38 @@ impl Solution {
 
         max_len
     }
+
+    pub fn dp_longest_str_chain(words: Vec<String>) -> i32 {
+        use std::cmp::max;
+        use std::collections::HashMap;
+        let mut words: Vec<_> = words
+            .into_iter()
+            .map(|w| w.chars().collect::<Vec<char>>())
+            .collect();
+        words.sort_by_key(|a| a.len());
+        let mut counts = HashMap::new();
+
+        let mut max_len = 0;
+        for word in words {
+            let w = word.iter().collect::<String>();
+            counts.insert(w.clone(), 1);
+            for i in 0..word.len() {
+                let missing = word.get(0..i).unwrap().iter().collect::<String>()
+                    + word
+                        .get(i + 1..)
+                        .unwrap()
+                        .iter()
+                        .collect::<String>()
+                        .as_str();
+                let cnt = *counts.get(&missing).unwrap_or(&0) + 1;
+                if let Some(c) = counts.get_mut(&w) {
+                    *c = max(*c, cnt);
+                }
+            }
+            max_len = max(max_len, *counts.get(&w).unwrap());
+        }
+        max_len
+    }
 }
 
 fn dfs(
@@ -90,6 +122,25 @@ mod tests {
         );
         assert_eq!(
             Solution::longest_str_chain(vec![
+                "a".to_string(),
+                "b".to_string(),
+                "ba".to_string(),
+                "bca".to_string(),
+                "bda".to_string(),
+                "bdca".to_string()
+            ]),
+            4
+        );
+    }
+
+    #[test]
+    fn test_dp_longest_str_chain() {
+        assert_eq!(
+            Solution::dp_longest_str_chain(vec!["a".to_string(), "ba".to_string(),]),
+            2
+        );
+        assert_eq!(
+            Solution::dp_longest_str_chain(vec![
                 "a".to_string(),
                 "b".to_string(),
                 "ba".to_string(),
