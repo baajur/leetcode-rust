@@ -68,6 +68,10 @@ fn count_live_neighbors(board: &Vec<Vec<i32>>, h: usize, w: usize) -> i32 {
     cnt
 }
 
+fn main() {
+    ()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
