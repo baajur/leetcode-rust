@@ -34,13 +34,13 @@ mod tests {
 
     #[test]
     fn test_single_number() {
-        assert_eq!(Solution::single_number(vec![2,2,1]), 1);
-        assert_eq!(Solution::single_number(vec![4,1,2,1,2]), 4);
+        assert_eq!(Solution::single_number(vec![2, 2, 1]), 1);
+        assert_eq!(Solution::single_number(vec![4, 1, 2, 1, 2]), 4);
     }
 
     #[test]
     fn test_bit_manipulation() {
-        assert_eq!(Solution::bit_manipulation(vec![2,2,1]), 1);
-        assert_eq!(Solution::bit_manipulation(vec![4,1,2,1,2]), 4);
+        assert_eq!(Solution::bit_manipulation(vec![2, 2, 1]), 1);
+        assert_eq!(Solution::bit_manipulation(vec![4, 1, 2, 1, 2]), 4);
     }
 }
